@@ -1,5 +1,5 @@
 # Docker Debian Base Image
-A Debian 9 base image to be used as a starting point for other images.
+A Debian 10 base image to be used as a starting point for other images.
 
 ## Overview
 This project uses a Dockerfile and Makefile to manage the creation and
@@ -52,4 +52,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* PurpleBooth -- [README](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2) and [CONTRIBUTING](https://gist.github.com/PurpleBooth/b24679402957c63ec426) samples
+* PurpleBooth's --
+ [README](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2) and
+ [CONTRIBUTING](https://gist.github.com/PurpleBooth/b24679402957c63ec426) samples

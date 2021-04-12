@@ -1,17 +1,20 @@
-FROM debian:9
+FROM debian:10
 LABEL maintainer="mike@thebarkers.com" \
-      description="A base debian:9 image to be used as the base image for debian dev image." \
-      version="0.1.1"
+      description="A base debian:10 image to be used as the base image for debian dev image." \
+      version="0.0.1"
 
-# Install git, process tools
+# Upgrade and Install dev tools
 RUN apt-get update \
     && apt-get upgrade -y \
-    && apt-get -y install git procps wget tree vim
-
-# Clean up apt repo
-RUN apt-get autoremove -y \
+    && apt-get install -y curl git locales procps sudo tmux tree vim wget \
+    && locale-gen en_US.UTF-8 \
+    && adduser --quiet --disabled-password --home /home/docker --gecos "User" docker \
+    && echo "docker:docker" | chpasswd \
+    && usermod -aG sudo docker \
+    && apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT ["bash"]
+USER docker
+ENTRYPOINT ["/bin/bash"]
 CMD ["--login"]
