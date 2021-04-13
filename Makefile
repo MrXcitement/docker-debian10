@@ -4,7 +4,7 @@
 
 DOCKER_USER ?= mrbarker
 NAME ?= debian10
-VER  ?= 0.0.1
+VER  ?= 1.0.0
 IMAGE := $(DOCKER_USER)/$(NAME)
 TIMESTAMP := $(shell date +%Y%m%d%H%M%S)
 TAG := $(IMAGE):$(TIMESTAMP)
