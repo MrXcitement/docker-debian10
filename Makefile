@@ -1,23 +1,51 @@
-username ?= mrbarker
-imagename ?= debian-base
-tag ?= 0.0.1
+# Makefile --- make the debian10 docker image
+# Mike Barker <mike@thebarkers.com>
+# April 12th, 2021
 
-.PHONY: docker-login docker-run
-all: docker-build
+DOCKER_USER ?= mrbarker
+NAME ?= debian10
+VER  ?= 0.0.1
+IMAGE := $(DOCKER_USER)/$(NAME)
+TIMESTAMP := $(shell date +%Y%m%d%H%M%S)
+TAG := $(IMAGE):$(TIMESTAMP)
+TAG_VER := $(IMAGE):$(VER)
+TAG_LATEST := $(IMAGE):latest
 
-docker-build: Dockerfile
-	docker build -t $(username)/$(imagename):$(tag) .	
-	touch $@
+.PHONY: all clean login run
+all: tag
 
-docker-push: 
-	docker push $(username)/$(imagename):$(tag)
-	touch $@
-
-docker-login:
-	DOCKER_ID_USER="$(username)" docker login
-
-docker-run:
-	docker run --rm -it $(username)/$(imagename):$(tag)
+build:
+	@docker build -t $(TAG) .	
+	$(shell echo $(TAG) > $@)
 
 clean:
-	rm -f docker-build docker-push
+	rm -f build push push-* tag tag-*
+	@docker system prune -f
+
+login:
+	@docker login -u $(DOCKER_USER)
+
+push: tag build
+	$(eval TAGGED := $(shell cat build))
+	@docker push $(TAGGED)
+	@docker push $(TAG_VER)
+	@docker push $(TAG_LATEST)
+	touch $@
+
+run: tag build
+	$(eval TAGGED := $(shell cat build))
+	@docker run --rm -it $(TAGGED)
+
+tag: tag-ver tag-latest build
+	touch $@
+
+tag-ver: build
+	$(eval TAGGED := $(shell cat build))
+	@docker tag $(TAGGED) $(TAG_VER)
+	touch $@
+
+tag-latest: build
+	$(eval TAGGED := $(shell cat build))
+	@docker tag $(TAGGED) $(TAG_LATEST)
+	touch $@
+
