@@ -1,3 +1,6 @@
 # make psuedo targets
-docker-build
-docker-push
+build
+push
+tag
+tag-ver
+tag-latest
