@@ -1,35 +1,62 @@
-# Docker Debian Base Image
-A Debian 10 base image to be used as a starting point for other images.
+# Docker Debian 10 Image
+A Docker Debian 10 image to be used as a development container.
 
 ## Overview
 This project uses a Dockerfile and Makefile to manage the creation and
-distribution of a base Debian docker image.  One novel aspect of the Makefile
-is the use of touch to create files for the non-file targets docker-build and
-docker-push.
+distribution of a Debian docker image.  The Makefile uses a timestamp to build
+the initial image. The name of the tagged image is stored in the ```build```
+file and this file is used to get the tagged image's name for the later
+push and tag rules. The make command touch is used to create files for the non-file
+targets: push, tag, tag-ver, tag-latest.
 
 ## Usage
+To build and tag an image
+```
+make
+```
+
 To build the image
 
 ```
-$ make docker-build
+$ make build
 ```
 
-To push the built image
-
+To clean the build process and start over
 ```
-$ make docker-push
+$ make clean
 ```
 
 To login to docker hub
 
 ```
-$ make docker-login
+$ make login
 ```
 
-To run the image
+To push the built image and tags to docker hub
 
 ```
-$ make docker-run
+$ make push
+```
+
+To run the built image
+
+```
+$ make run
+```
+
+To tag the built image with version and latest tags
+```
+$ make tag
+```
+
+To tag the built image with version tag
+```
+$ make tag-version
+```
+
+To tag the built image with latest tag
+```
+$ make tag-latest
 ```
 
 ## Contributing
@@ -40,11 +67,11 @@ conduct, and the process for submitting pull requests to us.
 ## Versioning
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available,
-see the [tags on this repository](https://github.com/MrXcitement/docker-debian-base/tags). 
+see the [tags on this repository](https://github.com/MrXcitement/docker-debian10/tags). 
 
 ## Authors
 
-* **Mike Barker** - *Initial work* - [MrXcitement](https://github.com/mrxcitement)
+* **Mike Barker** - *Creator* - [MrXcitement](https://github.com/mrxcitement)
 
 ## License
 
